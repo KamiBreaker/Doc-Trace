@@ -44,10 +44,30 @@ This project is set up to run with Docker and Docker Compose.
 
 ## Cloud Deployment
 
-This setup is compatible with cloud providers that support Docker or Docker Compose (e.g., AWS, Azure, Google Cloud, DigitalOcean).
+### Deploying to Render (Recommended)
 
-For platforms like **Render** or **Railway**:
-1.  Connect your repository.
-2.  Set the build command to install dependencies.
-3.  Set the start command to `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
-4.  Ensure you provision a PostgreSQL database and provide the `DATABASE_URL` environment variable.
+This project includes a `render.yaml` (Blueprint) file that simplifies deployment on [Render](https://render.com/).
+
+1.  **Push your code to GitHub/GitLab.**
+2.  **Log in to Render** and go to the **Blueprints** section.
+3.  **Connect your repository.**
+4.  Render will automatically detect the `render.yaml` file and propose to create:
+    -   A **PostgreSQL** database (Free Tier).
+    -   A **Web Service** for the FastAPI backend (Free Tier).
+5.  **Approve the Blueprint.** Render will provision the database, build the Docker container, and deploy your app.
+
+#### Manual Deployment on Render (without Blueprint):
+1.  **Create a New Web Service**: Connect your repo.
+2.  **Runtime**: Select `Docker`.
+3.  **Docker Context**: `backend`.
+4.  **Dockerfile Path**: `backend/Dockerfile`.
+5.  **Environment Variables**:
+    -   `DATABASE_URL`: Copy the "Internal Database URL" from your Render PostgreSQL instance.
+## Important Note on Resource Limits
+
+The AI models used in this project (`SentenceTransformers` and `RoBERTa`) require a significant amount of RAM. 
+
+- **Render Free Tier**: Provides 512MB RAM. This might be tight and could lead to `Out of Memory` (OOM) errors during the first download or during heavy usage.
+- **Recommended**: If you experience crashes, consider upgrading to the **Starter** plan (2GB RAM) on Render for a more stable experience.
+
+
