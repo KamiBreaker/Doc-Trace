@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-multipart
+pdfplumber
+python-docx
+sentence-transformers
+faiss-cpu
+torch
+numpy
+sqlalchemy
+psycopg2-binary
