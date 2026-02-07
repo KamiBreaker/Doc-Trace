@@ -1,8 +1,9 @@
 from transformers import pipeline
 
+# Using a much smaller model for constrained environments (Render Free Tier)
 qa = pipeline(
     "question-answering",
-    model="deepset/roberta-base-squad2"
+    model="mrm8488/tinyroberta-squad2"
 )
 
 def answer_question(question: str, clauses: list[str]):
