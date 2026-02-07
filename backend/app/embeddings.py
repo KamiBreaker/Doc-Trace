@@ -1,21 +1,11 @@
-import os
-import httpx
+from sentence_transformers import SentenceTransformer
+import numpy as np
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+model = SentenceTransformer("all-MiniLM-L6-v2")
 
 def embed_clauses(clauses):
-    if not OPENAI_API_KEY:
-        # Fallback or error if no key is provided
-        raise ValueError("OPENAI_API_KEY is not set")
-    
-    response = httpx.post(
-        "https://api.openai.com/v1/embeddings",
-        headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
-        json={
-            "input": clauses,
-            "model": "text-embedding-3-small"
-        },
-        timeout=60.0
+    return model.encode(
+        clauses,
+        convert_to_numpy=True,
+        normalize_embeddings=True
     )
-    data = response.json()
-    return [item["embedding"] for item in data["data"]]

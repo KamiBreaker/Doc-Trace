@@ -1,7 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Depends, Form
 from sqlalchemy.orm import Session
-from app.db import SessionLocal, engine
-from app import models
+from app.db import SessionLocal
 from app.models import Document, DocumentVersion, Clause, Embedding
 from app.ingestion import extract_text
 from app.chunking import chunk_into_clauses
@@ -10,9 +9,6 @@ from app.diff_engine import semantic_diff
 from app.qa_engine import answer_question
 from app.schemas import DiffResponse
 import uuid
-
-# Create database tables
-models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="DocuTrace AI")
 
