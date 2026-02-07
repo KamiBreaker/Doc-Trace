@@ -10,6 +10,8 @@ services:
         fromDatabase:
           name: docutrace-db
           property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false # You will enter this manually in the Render dashboard
 
 databases:
   - name: docutrace-db
